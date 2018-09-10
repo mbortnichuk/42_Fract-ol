@@ -10,18 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+NAME = fractol
 
 SRC = main.c \
-		ft_calc.c \
-		ft_draw.c \
-		ft_gen_img.c \
-		ft_img.c \
-		ft_parse.c \
-		ft_screen.c \
-		ft_tools.c
 
-INC = fdf.h
+INC = fractol.h
 
 CFLAGS = -Wall -Wextra -Werror -I
 
