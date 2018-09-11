@@ -25,7 +25,7 @@ void ft_init_mandelbrot(void *env)
 	info->fr.factor_z = 1;
 	info->fr.d = 2;
 	info->fr.abs = 0;
-	info->fr.interact 0;
+	info->fr.interact = 0;
 	info->fr.cent_x = -0.5;
 	info->fr.cent_y = 0.0;
 	info->fr.wid_x = 3.5;
@@ -40,7 +40,7 @@ void ft_init_tribrot(void *env)
 	info->fr.factor_z = 1;
 	info->fr.d = 3;
 	info->fr.abs = 0;
-	info->fr.interact 0;
+	info->fr.interact = 0;
 	info->fr.cent_x = 0.0;
 	info->fr.cent_y = 0.0;
 	info->fr.wid_x = 4.0;
@@ -55,7 +55,7 @@ void ft_init_quabrot(void *env)
 	info->fr.factor_z = 1;
 	info->fr.d = 4;
 	info->fr.abs = 0;
-	info->fr.interact 0;
+	info->fr.interact = 0;
 	info->fr.cent_x = 0.0;
 	info->fr.cent_y = 0.0;
 	info->fr.wid_x = 4.0;
@@ -78,13 +78,13 @@ void ft_mandelbrot(void *env, int pix_id)
 	fr.y = pix_id / info->w;
 	if (info->psycho == 0)
 	{
-		fr = ft_calc_min_max_fractal(info, f);
+		fr = ft_calc_min_max_fractal(info, fr);
 		info->fr = fr;
-		fr.c.real = fr_lint(fr.min_x, fr.max_x, (float)fr.x / info->w);
+		fr.c.real = ft_lint(fr.min_x, fr.max_x, (float)fr.x / info->w);
 		fr.c.imag = ft_lint(fr.min_y, fr.max_y, (float)fr.y / info->h);
 		fr.z.real = 0;
 		fr.z.imag = 0;
 		info->buff_iter[pix_id] = ft_esc_time(info, fr);
 	}
-	ft_image_pixel_put(info, fr.x, fr.y, ft_clr_choose(info, info->buff_iter[pix_id]));
+	ft_image_put_pixel(info, fr.x, fr.y, ft_clr_choose(info, info->buff_iter[pix_id]));
 }

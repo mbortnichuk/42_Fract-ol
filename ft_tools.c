@@ -25,7 +25,7 @@ void ft_show_info(int mod)
 	else if (mod == 1)
 	{
 		ft_printf("\n\t\t\t\tFract'ol\n");
-		ft_printf("Arrows to translate real/imaginary axes\n\
+		ft_printf("\t\tArrows to translate real/imaginary axes\n\
 			'+/-' to incr/decr iteration limit\n\
 			f -> freeze mouse cursor (works for Julia fractals)\n\
 			p -> psycho mode\nl -> linear continuous color mode\n\
@@ -35,34 +35,50 @@ void ft_show_info(int mod)
 	}
 }
 
-// void ft_init_hooks(t_info *info)
-// {
-// 	mlx_key_hook(info->wind, );
-// }
-
 void ft_init_info(t_info *info)
 {
 	info->w = 1024;
 	info->h = 576;
-	// info->size = info->w * info->h;
-	// info->t_x = 0;
-	// info->t_y = 0;
-	// info->ccol = 0;
-	// into->limit_iter = 50;
+	info->size = info->w * info->h;
+	info->t_x = 0;
+	info->t_y = 0;
+	info->ccol = 0;
+	info->limit_iter = 50;
 	info->buff_iter = (float*)malloc(info->size * sizeof(float));
 	info->fract_init(info);
-	// ft_set_clr(info);
+	ft_init_color(info);
 	info->mlx = mlx_init();
 	info->wind = mlx_new_window(info->mlx, info->w, info->h, "Fract'ol");
-	// ft_init_image(info);
-	// ft_init_mouse(info);
-	// ft_init_hooks(info);
-	// ft_render(info);
+	ft_init_image(info);
+	ft_init_mouse(info);
+	ft_init_hooks(info);
+	ft_render(info);
 	mlx_loop(info->mlx);
 }
 
-/*
-**
-*/
+void ft_init_color(t_info *info)
+{
+	info->clr_style = 0;
+	info->clr.centr = 127;
+	info->clr.wid = 128;
+	info->clr.r_gb = 0.33;
+	info->clr.r_g_b = 0.33;
+	info->clr.rg_b = 0.33;
+	info->clr.r_gb_phase = 0.00;
+	info->clr.r_g_b_phase = (2 * M_PI) / 3;
+	info->clr.rg_b_phase = (4 * M_PI) / 3;
+	info->psycho = 0;
+}
 
+void ft_clean_info(t_info *info)
+{
+	free(info->buff_iter);
+	mlx_destroy_image(info->mlx, (&info->img)->img);
+	mlx_destroy_window(info->mlx, info->wind);
+}
 
+void ft_reset_info(t_info *info)
+{
+	ft_clean_info(info);
+	ft_init_info(info);
+}

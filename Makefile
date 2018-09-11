@@ -13,6 +13,18 @@
 NAME = fractol
 
 SRC = main.c \
+		ft_bship.c \
+		ft_color.c \
+		ft_esc_time_fr.c \
+		ft_get_fract.c \
+		ft_julia.c \
+		ft_keyhooks.c \
+		ft_mandelbrot.c \
+		ft_mousehooks.c \
+		ft_palette.c \
+		ft_render_image.c \
+		ft_set_fract_table.c \
+		ft_tools.c
 
 INC = fractol.h
 

@@ -27,6 +27,44 @@ double ft_lint(double st, double end, double dec_perc)
 }
 
 /*
+** Function to get the row and col value from a flattened 2D matrix.
+** Dim is the "width" of the matrix.
+*/
+
+int id_x(int row, int col, int dimens)
+{
+	return (row * dimens + col);
+}
+
+/*
+** lookup ft_esc_time_fr.c
+*/
+
+void ft_calculate_z(t_info *info, t_plxdcm *z_tmp, t_plxdcm z, t_plxdcm v)
+{
+	if (info->fr.d == 2)
+	{
+		z_tmp->imag = (z.real + z.imag) * (z.real + z.imag) - z.real_sqr - z.imag_sqr + v.imag;
+		z_tmp->real = z.real_sqr - z.imag_sqr + v.real;
+	}
+	else if (info->fr.d == 3)
+	{
+		z_tmp->imag = z.imag * (3 * z.real_sqr - z.imag_sqr) + v.imag;
+		z_tmp->real = z.real * (z.real_sqr - 3 * z.imag_sqr) + v.real;
+	}
+	else if (info->fr.d == 4)
+	{
+		z_tmp->imag = (4 * z.real * z.imag) * (z.real_sqr - z.imag_sqr) + v.imag;
+		z_tmp->real = (z.real_sqr * z.imag_sqr) + z.imag_sqr * (z.imag_sqr - 6 * z.real_sqr) + v.real;
+	}
+	if (info->fr.abs == 1)
+	{
+		z_tmp->imag = (z_tmp->imag < 0.0f) ? -z_tmp->imag : z_tmp->imag;
+		z_tmp->real = (z_tmp->real < 0.0f) ? -z_tmp->real : z_tmp->real;
+	}
+}
+
+/*
 ** Entry point of the program.
 */
 
