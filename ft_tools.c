@@ -18,7 +18,7 @@ void ft_show_info(int mod)
 	{
 		ft_printf("Usage: ./fractol [fractol number]\n\n");
 		ft_printf("Fractol numbers:\n");
-		ft_printf("0. Julia\n1.Mandelbrot\n2.Bship\n3.Trijulia\n");
+		ft_printf("0.Julia\n1.Mandelbrot\n2.Bship\n3.Trijulia\n");
 		ft_printf("4.Tribrot\n5.Excalibur\n6.Quajulia\n7.Quabrot\n");
 		ft_printf("8.Triship or Ghosts\n");
 	}

@@ -45,13 +45,12 @@ endif
 
 NAME = fractol
 SRCS_DIR = ./
-INCLUDES = fractol.h
+INCLUDES = ./includes/
 RM = /bin/rm -f
 
-FILES = main ft_bship ft_color ft_esc_time_fr \
-	ft_get_fract ft_julia ft_keyhooks ft_mandelbrot \
-	ft_mousehooks ft_palette ft_render_image \
-	ft_set_fract_table ft_tools
+FILES = main ft_bship ft_color ft_esc_time_fr ft_get_fract \
+ft_julia ft_keyhooks ft_mandelbrot ft_mousehooks ft_palette \
+ft_render_image ft_set_fract_table ft_tools
 CFILES = $(patsubst %, $(SRCS_DIR)%.c, $(FILES))
 OFILES = $(patsubst %, %.o, $(FILES))
 CFLAGS = -Wall -Wextra -Werror -O2 -funroll-loops
@@ -66,8 +65,6 @@ LFT = ./libft/
 LFT_LIB = $(addprefix $(LFT), ft.a)
 LFT_INC = -I $(LFT)includes/
 LFT_LINK = -L $(LFT) -l ft
-
-.PHONY: all clean fclean re
 
 all: $(MLX_LIB) $(LFT_LIB) $(NAME)
 
@@ -93,3 +90,5 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
