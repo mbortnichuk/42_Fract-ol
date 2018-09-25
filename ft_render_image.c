@@ -5,94 +5,100 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbortnic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/11 10:49:30 by mbortnic          #+#    #+#             */
-/*   Updated: 2018/09/11 10:49:32 by mbortnic         ###   ########.fr       */
+/*   Created: 2018/09/19 14:53:31 by mbortnic          #+#    #+#             */
+/*   Updated: 2018/09/19 14:53:32 by mbortnic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
 /*
-** Our image is WIN_W * WIN_H * 32 bits per pixel large. But out ft_memset and
-** ft_bzero funcs take a size in BYTES though.
+**	Our image is WIN_W * WIN_H * 32 bits per pixel large.
+**	Our ft_bzero and ft_memset functions take a size in BYTES though.
 */
 
-void ft_clear_image(t_info *info)
+void	ft_clear_image(t_info *info)
 {
-	t_img *image;
+	t_img *img;
 
-	image = &(info->img);
-	ft_bzero(image->point, info->size * image->bpp);
+	img = &(info->img);
+	ft_bzero(img->ptr, info->size * img->bpp);
 }
 
 /*
-** Using mlx funcs to initialize our image that will be drawing our maps on.
-** The initial bits per pixel that mlx_get_data_addr func returns is 32 bits.
-** We working with bytes though since that's what the rest of our program is
-** working in.
-** Since 8 bits = 1 byte we just take our bpp and divide by 8
-** to get bytes per pixel.
-** Let it be declared here that image->bpp henceforce stands
-** for bytes per pixel.
+**	Use mlx functions to initialize our image that we will be
+**	drawing our maps on.
+**	The initial bits per pixel (bpp) that the mlx_get_data_addr function returns
+**	is 32 bits.
+**	We would like to work with bytes though since that is what the rest of our
+**	program is working in.
+**	Example 1: our colors are ints which are in bytes.
+**	Example 2: Our ft_bzero and ft_memset functions expect a size in bytes
+**	Since 8 bits = 1 byte we just take our bpp and divide by 8 to get
+**	BYTES per pixel
+**	LET IT BE DECLARED HERE THAT img->bpp HENCEFORCE STANDS FOR BYTES PER PIXEL
 */
 
-void ft_init_image(t_info *info)
+void	ft_init_new_img(t_info *info)
 {
-	t_img *image;
+	t_img	*img;
 
-	image = &info->img;
-	image->img = mlx_new_image(info->mlx, info->w, info->h);
-	image->point = mlx_get_data_addr(image->img, &image->bpp, &image->line_s, &image->endian);
-	image->bpp /= 8;
+	img = &info->img;
+	img->img = mlx_new_image(info->mlx, info->w, info->h);
+	img->ptr = mlx_get_data_addr(img->img, &img->bpp, &img->s_line,
+								&img->endian);
+	img->bpp /= 8;
 }
 
-void ft_image_put_pixel(t_info *info, double x, double y, int clr)
+void	ft_img_put_pix(t_info *info, double x, double y, int color)
 {
-	t_img *image;
+	t_img *img;
 
-	image = &(info->img);
+	img = &(info->img);
 	if (x >= 0 && x < info->w && y >= 0 && y < info->h)
-		*(int*)(image->point + (int)(id_x(y, x, info->w) * image->bpp)) = clr;
+		*(int *)(img->ptr + (int)(ft_id_x(y, x, info->w) * img->bpp)) = color;
 }
 
 /*
-** Function will draw all the pixels of a fractal for 1 quadrant of the
-** window.
-** This allows multithreading so with 4 threads each can take care
-** of 1 quadrant.
+**	This function will draw all the pixels of a fractal for 1 quadrant of the
+**	window. This allows multithreading so with 4 threads each can take care of 1
+**	quadrant.
 */
 
-void *ft_render_quadrants(void *as)
+void	*ft_rend_quads(void *as)
 {
-	t_info *info;
-	int x_id;
-	int x_end;
-	int y_id;
-	int y_end;
+	int			x_ind;
+	int			y_ind;
+	int			x_end;
+	int			y_end;
+	t_info		*env;
 
-	info = ((t_trg*)as)->info;
-	x_end = (LEFT(((t_trg*)as)->quadr)) ? info->w / 2 : info->w;
-	y_end = (TOP(((t_trg*)as)->quadr)) ? info->h / 2 : info->h;
-	x_id = (LEFT(((t_trg*)as)->quadr)) ? -1 : info->w / 2 - 1;
-	while (++x_id < x_end)
+	env = ((t_args *)as)->info;
+	x_end = (LEFT(((t_args *)as)->quadr)) ? env->w / 2 : env->w;
+	y_end = (TOP(((t_args *)as)->quadr)) ? env->h / 2 : env->h;
+	x_ind = (LEFT(((t_args *)as)->quadr)) ? -1 : env->w / 2 - 1;
+	while (++x_ind < x_end)
 	{
-		y_id = (TOP(((t_trg*)as)->quadr)) ? -1 : info->h / 2 - 1;
-		while (++y_id < y_end)
-			info->fract_func(info, id_x(y_id, x_id, info->w));
+		y_ind = (TOP(((t_args *)as)->quadr)) ? -1 : env->h / 2 - 1;
+		while (++y_ind < y_end)
+		{
+			env->fract_func(env, ft_id_x(y_ind, x_ind, env->w));
+		}
 	}
 	return (NULL);
 }
 
 /*
-** Func will render fractal. We do this by creating 4 threads that will work
-** on the 4 quadrants of the window. Then we wait for the threads to finish
-** and we can put the resulting image to the window.
+**	This will render(draw) our fractal. We do this by creating 4 threads
+**  that will work on the 4 quadrants of the window.
+**	Then we just wait for the threads to finish and we can put the resulting
+**	image to the window.
 */
 
-void ft_render(t_info *info)
+void	ft_render(t_info *info)
 {
-	t_trg as[4];
-	int i;
+	int		i;
+	t_args	as[4];
 
 	ft_clear_image(info);
 	i = -1;
@@ -100,24 +106,10 @@ void ft_render(t_info *info)
 	{
 		as[i].info = info;
 		as[i].quadr = i;
-		pthread_create(&info->t_ids[i], NULL, ft_render_quadrants, (void*)&as[i]);
+		pthread_create(&info->tids[i], NULL, ft_rend_quads, (void*)&as[i]);
 	}
 	i = -1;
 	while (++i < 4)
-		pthread_join(info->t_ids[i], NULL);
+		pthread_join(info->tids[i], NULL);
 	mlx_put_image_to_window(info->mlx, info->wind, info->img.img, 0, 0);
 }
-
-/*#include <time.h>
-#include <stdio.h>
-
-	struct timespec start, finish;
-	double elapsed = 0;
-	clock_gettime(CLOCK_MONOTONIC, &start);
-
-	"function you care about and like to time goes here"
-
-	clock_gettime(CLOCK_MONOTONIC, &finish);
-	elapsed = (finish.tv_sec - start.tv_sec);
-	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-	ft_printf("time elapsed: %lf\n", elapsed);*/

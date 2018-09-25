@@ -5,22 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbortnic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 15:28:27 by mbortnic          #+#    #+#             */
-/*   Updated: 2018/09/10 15:28:28 by mbortnic         ###   ########.fr       */
+/*   Created: 2018/09/19 14:13:49 by mbortnic          #+#    #+#             */
+/*   Updated: 2018/09/19 14:13:50 by mbortnic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
 /*
-** Excalibur is actually d = 3 version of bship :)
+**	Initializes the zoom factor, center X Y coordinates of our fractal as
+**	well as the width of our X Y dimensions.
 */
 
-void ft_init_bship(void *env)
+void	ft_init_bship(void *en)
 {
-	t_info *info;
+	t_info	*info;
 
-	info = (t_info*)env;
+	info = (t_info *)en;
 	info->fr.factor_z = 1;
 	info->fr.d = 2;
 	info->fr.abs = 1;
@@ -31,11 +32,15 @@ void ft_init_bship(void *env)
 	info->fr.wid_y = 3.0;
 }
 
-void ft_init_excalibur(void *env)
-{
-	t_info *info;
+/*
+**	It's actually the d = 3 version of burning ship...
+*/
 
-	info = (t_info*)env;
+void	ft_init_excalibur(void *en)
+{
+	t_info	*info;
+
+	info = (t_info *)en;
 	info->fr.factor_z = 1;
 	info->fr.d = 3;
 	info->fr.abs = 1;
@@ -46,11 +51,11 @@ void ft_init_excalibur(void *env)
 	info->fr.wid_y = 4.0;
 }
 
-void ft_init_quaship(void *env)
+void	ft_init_quadroship(void *en)
 {
-	t_info *info;
+	t_info	*info;
 
-	info = (t_info*)env;
+	info = (t_info *)en;
 	info->fr.factor_z = 1;
 	info->fr.d = 4;
 	info->fr.abs = 1;
