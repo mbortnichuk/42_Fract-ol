@@ -10,85 +10,50 @@
 #                                                                              #
 # **************************************************************************** #
 
-MLX_BASEDIR = ./minilibx/
-
-#detect OS to determine mlx version to use...
-TARGETOS := $(shell uname -s)
-
-ifeq ($(TARGETOS), Darwin)
-	OSXRELEASE := $(shell uname -r | sed 's/\..*//')
-	ifeq ($(OSXRELEASE), 17)
-		OSXVER = highsierra
-		MLX = $(addprefix $(MLX_BASEDIR), $(join minilibx_macos_, $(OSXVER)))
-	endif
-	ifeq ($(OSXRELEASE), 16)
-		OSXVER = sierra
-		MLX = $(addprefix $(MLX_BASEDIR), $(join minilibx_macos_, $(OSXVER)))
-	endif
-	ifeq ($(OSXRELEASE), 15)
-		OSXVER = elcapitan
-		MLX = $(addprefix $(MLX_BASEDIR), $(join minilibx_macos_, $(OSXVER)))
-	endif
-	ifeq ($(OSXRELEASE), 14)
-		OSXVER = yosemite
-	endif
-	ifeq ($(OSXRELEASE), 13)
-		OSXVER = maverick
-	endif
-	ifeq ($(OSXRELEASE), 12)
-		OSXVER = mountainlion
-	endif
-	ifeq ($(OSXRELEASE), 11)
-		OSXVER = lion
-	endif
-endif
-
 NAME = fractol
-SRCS_DIR = ./
-INCLUDES = ./includes/
-RM = /bin/rm -f
 
-FILES = main ft_bship ft_color ft_esc_time_fr ft_get_fract \
-ft_julia ft_keyhooks ft_mandelbrot ft_mousehooks ft_palette \
-ft_render_image ft_set_fract_table ft_tools
-CFILES = $(patsubst %, $(SRCS_DIR)%.c, $(FILES))
-OFILES = $(patsubst %, %.o, $(FILES))
-CFLAGS = -Wall -Wextra -Werror -O2 -funroll-loops
+SRC = main.c ft_bship.c ft_color.c ft_esc_time_fr.c ft_get_fract.c \
+ft_julia.c ft_keyhooks.c ft_mandelbrot.c ft_mousehooks.c ft_palette.c \
+ft_render_image.c ft_set_fract_table.c ft_tools.c
 
-#mlx library
-MLX_LIB	= $(addprefix $(MLX), mlx.a)
-MLX_INC = -I $(MLX)
-MLX_LINK = -L $(MLX) -l mlx -framework OpenGL -framework AppKit
+INC = fdf.h
 
-#libft
-LFT = ./libft/
-LFT_LIB = $(addprefix $(LFT), ft.a)
-LFT_INC = -I $(LFT)includes/
-LFT_LINK = -L $(LFT) -l ft
+CFLAGS = -Wall -Wextra -Werror -I
 
-all: $(MLX_LIB) $(LFT_LIB) $(NAME)
+OBJ = $(SRC:.c=.o)
 
-$(OFILES):
-	gcc $(CFLAGS) -c -I$(INCLUDES) $(MLX_INC) $(LFT_INC) $(CFILES)
+LIBD = ./libft/
 
-$(LFT_LIB):
-	make -C $(LFT)
+RM = rm -f
 
-$(MLX_LIB):
-	make -C $(MLX)
+all: $(NAME)
 
-$(NAME): $(OFILES)
-	gcc $(CFLAGS) $(OFILES) $(MLX_LINK) $(LFT_LINK) -o $(NAME)
+$(NAME): $(OBJ) $(LIBD)libft.a
+	@ gcc -I $(INC) $(OBJ) -o $(NAME) -L$(LIBD) -lft -O3 -lmlx -framework OpenGL -framework AppKit
+	@ echo "\033[32;1m$(NAME) is ready\033[0m"
+
+%.o: %.c
+	@ gcc -I $(INC) -c $< -o $@
+
+$(LIBD)libft.a:
+	@ make -C $(LIBD)
 
 clean:
-	make -C $(MLX) clean
-	make -C $(LFT) clean
-	$(RM) $(OFILES)
+	@ make clean -C $(LIBD)
+	@ $(RM) $(OBJ)
+	@ echo "\033[33;1m$(NAME) obj files are removed\033[0m"
 
 fclean: clean
-	make -C $(LFT) fclean
-	$(RM) $(NAME)
+	@ make fclean -C $(LIBD)
+	@ $(RM) $(NAME)
+	@ echo "\033[31;m$(NAME) is deleted\033[0m"
 
 re: fclean all
+	@ echo "\033[36;1mre performed\033[0m"
 
-.PHONY: all clean fclean re
+norm:
+	@ echo "\033[35;1mWait a sec.\033[0m"
+	@ norminette *.c *.h ./libft/*.c *.h
+	@ echo "\033[35;1mnorminette check finished\033[0m"
+
+.PHONY: all clean fclean re norm

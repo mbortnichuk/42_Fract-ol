@@ -19,7 +19,7 @@
 ** Thus the width of our color range is 128 (if we want rainbow effects)
 */
 
-int		ft_choose_clr(t_info *info, float iter)
+int		ft_choose_clr(float iter, t_info *info)
 {
 	int		r;
 	int		g;

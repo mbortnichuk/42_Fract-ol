@@ -83,8 +83,8 @@ int		ft_pressed_mouse(int button, int x, int y, t_info *info)
 		{
 			mouse->ratio_x = (double)x / info->w;
 			mouse->ratio_y = (double)y / info->h;
-			fx = ft_linint(info->fr.min_x, info->fr.max_x, mouse->ratio_x);
-			fy = ft_linint(info->fr.min_y, info->fr.max_y, mouse->ratio_y);
+			fx = ft_linint(mouse->ratio_x, info->fr.min_x, info->fr.max_x);
+			fy = ft_linint(mouse->ratio_y, info->fr.min_y, info->fr.max_y);
 			if (button == 4)
 				info->fr.factor_z /= 1.1;
 			if (button == 5)

@@ -19,7 +19,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <unistd.h>
-# include "../libft/libft.h"
+# include "./libft/libft.h"
 
 # define LEFT(x) 			((x) == 0 || (x) == 2)
 # define TOP(x) 			((x) == 0 || (x) == 1)
@@ -138,20 +138,20 @@ void					ft_init_quadroship(void *en);
 ** ft_color.c
 */
 
-int						ft_choose_clr(t_info *info, float iter);
+int						ft_choose_clr(float iter, t_info *info);
 
 /*
 ** ft_esc_time_fr.c
 */
 
-float					ft_fr_esc_time(t_info *info, t_fract f);
+float					ft_fr_esc_time(t_fract fr, t_info *info);
 
 /*
 ** ft_get_fract.c
 */
 
-int						ft_get_fractal(void *env, char *ch_line);
-t_fract					ft_calc_min_max_fract(t_info *info, t_fract f);
+int						ft_get_fractal(char *ch_line, void *env);
+t_fract					ft_calc_min_max_fract(t_fract f, t_info *info);
 
 /*
 ** ft_julia.c
@@ -232,10 +232,9 @@ void					ft_reset_info(t_info *info);
 ** main.c
 */
 
-int						ft_id_x(int row, int col, int dim);
-double					ft_linint(double st, double end, \
-								double dec_perc);
-void					ft_calculate_z(t_info *info, t_plxdcm *tmp_z, \
-								t_plxdcm z, t_plxdcm c);
+int						ft_id_x(int dim, int row, int col);
+double					ft_linint(double dec_prc, double st, double end);
+void					ft_calculate_z(t_plxdcm z, t_plxdcm c, \
+							t_info *info, t_plxdcm *tmp_z);
 
 #endif

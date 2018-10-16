@@ -21,7 +21,7 @@
 **	is actually a valid index into the jump table.
 */
 
-int			ft_get_fractal(void *env, char *ch_line)
+int			ft_get_fractal(char *ch_line, void *env)
 {
 	static t_fract_jt	fractal_jt[25] = {NULL};
 	static t_f_set_jt	fract_setup_jt[25] = {NULL};
@@ -68,7 +68,7 @@ int			ft_get_fractal(void *env, char *ch_line)
 **	was initiated. (see: mouse_hooks.c)
 */
 
-t_fract		ft_calc_min_max_fract(t_info *info, t_fract fr)
+t_fract		ft_calc_min_max_fract(t_fract fr, t_info *info)
 {
 	double	xwid;
 	double	ywid;

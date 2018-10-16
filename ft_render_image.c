@@ -56,7 +56,7 @@ void	ft_img_put_pix(t_info *info, double x, double y, int color)
 
 	img = &(info->img);
 	if (x >= 0 && x < info->w && y >= 0 && y < info->h)
-		*(int *)(img->ptr + (int)(ft_id_x(y, x, info->w) * img->bpp)) = color;
+		*(int *)(img->ptr + (int)(ft_id_x(info->w, y, x) * img->bpp)) = color;
 }
 
 /*
@@ -82,7 +82,7 @@ void	*ft_rend_quads(void *as)
 		y_ind = (TOP(((t_args *)as)->quadr)) ? -1 : env->h / 2 - 1;
 		while (++y_ind < y_end)
 		{
-			env->fract_func(env, ft_id_x(y_ind, x_ind, env->w));
+			env->fract_func(env, ft_id_x(env->w, y_ind, x_ind));
 		}
 	}
 	return (NULL);

@@ -17,7 +17,7 @@
 **	2D matrix. Dim is the 'width' of the matrix.
 */
 
-int		ft_id_x(int row, int col, int dim)
+int		ft_id_x(int dim, int row, int col)
 {
 	return (row * dim + col);
 }
@@ -29,14 +29,14 @@ int		ft_id_x(int row, int col, int dim)
 **	Test with: ft_linint(-16.0e30, 16.0, 1.0)
 */
 
-double	ft_linint(double st, double end, double dec_prc)
+double	ft_linint(double dec_prc, double st, double end)
 {
 	if (st == end)
 		return (st);
 	return (st * (1.0 - dec_prc) + (end * dec_prc));
 }
 
-void	ft_calculate_z(t_info *info, t_plxdcm *tmp_z, t_plxdcm z, t_plxdcm c)
+void	ft_calculate_z(t_plxdcm z, t_plxdcm c, t_info *info, t_plxdcm *tmp_z)
 {
 	if (info->fr.d == 2)
 	{
@@ -72,7 +72,7 @@ int		main(int argc, char *argv[])
 
 	info.choice_of_fract = -1;
 	if (argc == 2 && (info.choice_of_fract = \
-		ft_get_fractal(&info, argv[1])) != -1)
+		ft_get_fractal(argv[1], &info)) != -1)
 	{
 		ft_show_info(1);
 		ft_init_info(&info);

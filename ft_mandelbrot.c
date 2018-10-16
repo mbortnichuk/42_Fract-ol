@@ -73,14 +73,14 @@ void	ft_mandelbrot(void *en, int pix_id)
 	fr.y = pix_id / info->w;
 	if (info->psycho == 0)
 	{
-		fr = ft_calc_min_max_fract(info, fr);
+		fr = ft_calc_min_max_fract(fr, info);
 		info->fr = fr;
-		fr.c.real = ft_linint(fr.min_x, fr.max_x, (float)fr.x / info->w);
-		fr.c.imag = ft_linint(fr.min_y, fr.max_y, (float)fr.y / info->h);
+		fr.c.real = ft_linint((float)fr.x / info->w, fr.min_x, fr.max_x);
+		fr.c.imag = ft_linint((float)fr.y / info->h, fr.min_y, fr.max_y);
 		fr.z.real = 0;
 		fr.z.imag = 0;
-		info->buff_iter[pix_id] = ft_fr_esc_time(info, fr);
+		info->buff_iter[pix_id] = ft_fr_esc_time(fr, info);
 	}
-	ft_img_put_pix(info, fr.x, fr.y, ft_choose_clr(info, \
-		info->buff_iter[pix_id]));
+	ft_img_put_pix(info, fr.x, fr.y, \
+		ft_choose_clr(info->buff_iter[pix_id], info));
 }

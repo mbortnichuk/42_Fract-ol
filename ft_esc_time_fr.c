@@ -50,7 +50,7 @@
 **	http://linas.org/art-gallery/escape/escape.html
 */
 
-float	ft_fr_esc_time(t_info *info, t_fract fr)
+float	ft_fr_esc_time(t_fract fr, t_info *info)
 {
 	size_t		iter;
 	t_plxdcm	z;
@@ -63,7 +63,7 @@ float	ft_fr_esc_time(t_info *info, t_fract fr)
 	z = ft_abs_sqr(z);
 	while (z.rsqr + z.isqr <= 4.0 && iter < info->limit_iter)
 	{
-		ft_calculate_z(info, &tmp_z, z, c);
+		ft_calculate_z(z, c, info, &tmp_z);
 		if (z.real == tmp_z.real && z.imag == tmp_z.imag)
 		{
 			iter = info->limit_iter;
