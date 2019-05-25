@@ -37,6 +37,8 @@ make
 - esc: exit
 
 ## Screenshots
+- Usage
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/usage.png "Usage")
 
 
 ## Author
