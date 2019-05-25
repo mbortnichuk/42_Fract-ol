@@ -39,6 +39,9 @@ make
 ## Screenshots
 ![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/usage.png "Usage")
 
+- Available Fractals
+
+
 
 ## Author
 - Mariana Bortnichuk - [mbortnic](https://github.com/mbortnichuk "mbortnic")
