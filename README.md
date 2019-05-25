@@ -2,7 +2,7 @@
 This project is meant to create graphically beautiful fractals.
 
 ## Decription
-
+Aim of this project is to explore a variety of fractals, mathematical sets that exhibit a repeating pattern displayed at every scale.
 
 ## Run
 ```
