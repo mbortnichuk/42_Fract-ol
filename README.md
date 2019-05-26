@@ -37,11 +37,31 @@ make
 - esc: exit
 
 ## Screenshots
-![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/usage.png "Usage")
-
 - Available Fractals
 
+`Julia1`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/julia1.png "julia1")
 
+`Julia2`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/julia2.png "julia2")
+
+`Mandelbrot LCM`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/mandelbrotLCM.png "mandelbrotLCM")
+
+`Mandelbrot`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/mandelbrot1.png "mandelbrot")
+
+`Burning Ship`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/burningShip1.png "burningShip")
+
+`Trijulia`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/trijulia.png "trijulia")
+
+`Tribrot`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/tribrot.png "tribrot")
+
+`Excalibur LCM`
+![foo](https://github.com/mbortnichuk/42_Fract-ol/blob/master/pictures/excaliburLCM.png "excaliburLCM")
 
 ## Author
 - Mariana Bortnichuk - [mbortnic](https://github.com/mbortnichuk "mbortnic")
